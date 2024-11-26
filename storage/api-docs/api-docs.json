@@ -6,6 +6,120 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api": {}
-    }
+        "/api": {},
+        "/api/v1/app/check-version": {
+            "get": {
+                "tags": [
+                    "App"
+                ],
+                "summary": "Check for app version and update status",
+                "description": "Checks the current app version against the latest version and returns whether an update is available, and if so, whether it's mandatory.",
+                "operationId": "checkVersion",
+                "parameters": [
+                    {
+                        "name": "current_version",
+                        "in": "query",
+                        "description": "The current version of the app",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1.1.3"
+                        }
+                    },
+                    {
+                        "name": "platform",
+                        "in": "query",
+                        "description": "The platform of the app (android, ios, or web)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "android",
+                                "ios",
+                                "web"
+                            ],
+                            "example": "android"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "App version information and update status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_version": {
+                                            "description": "Current version of the app",
+                                            "type": "string",
+                                            "example": "1.1.3"
+                                        },
+                                        "latest_version": {
+                                            "description": "Latest version of the app",
+                                            "type": "string",
+                                            "example": "1.2.0"
+                                        },
+                                        "is_mandatory": {
+                                            "description": "Indicates if the update is mandatory",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Message to the user regarding the update status",
+                                            "type": "string",
+                                            "example": "A new version is available. Do you want to update?"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Platform not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Platform not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error - The request parameters are not valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "A general error message",
+                                            "type": "string",
+                                            "example": "The selected platform is invalid. (and 1 more error)"
+                                        },
+                                        "errors": {
+                                            "description": "An object containing validation errors for each parameter",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "App",
+            "description": "App"
+        }
+    ]
 }
