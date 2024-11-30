@@ -103,7 +103,7 @@ class AppVersionController extends Controller
 
         if (!$latestVersion) {
             return response()->json([
-                'message' => _('Platform not found.'),
+                'message' => __('Platform not found.'),
             ], 404);
         }
 
@@ -115,9 +115,9 @@ class AppVersionController extends Controller
             'is_mandatory' => $latestVersion->is_mandatory,
             'message' => $isUpdateRequired
                 ? ($latestVersion->is_mandatory
-                    ? _('A new version is mandatory. Please update your app.')
-                    : _('A new version is available. Do you want to update?'))
-                : _('You are using the latest version.'),
+                    ? __('A new version is mandatory. Please update your app.')
+                    : __('A new version is available. Do you want to update?'))
+                : __('You are using the latest version.'),
         ]);
     }
 
