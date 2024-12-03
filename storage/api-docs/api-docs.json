@@ -6,7 +6,67 @@
         "version": "1.2.5"
     },
     "paths": {
-        "/api/v1": {},
+        "/api": {},
+        "/api/v1/app/company-activity-types": {
+            "get": {
+                "tags": [
+                    "App"
+                ],
+                "summary": "Get all company activity types",
+                "operationId": "498d9e3a711efb20db46274382a0282b",
+                "responses": {
+                    "200": {
+                        "description": "List of company activity types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Technology"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/app/check-version": {
             "get": {
                 "tags": [
@@ -113,66 +173,6 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/v1/app/company-activity-types": {
-            "get": {
-                "tags": [
-                    "App"
-                ],
-                "summary": "Get all company activity types",
-                "operationId": "498d9e3a711efb20db46274382a0282b",
-                "responses": {
-                    "200": {
-                        "description": "List of company activity types",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Technology"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
             }
         },
         "/api/v1/auth/verify-email": {

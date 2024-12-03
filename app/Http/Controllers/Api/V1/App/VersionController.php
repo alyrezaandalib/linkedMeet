@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\V1\App;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\AppVersion\CheckVersionRequest;
 use App\Models\AppVersion;
 use OpenApi\Attributes as OA;
 
-class AppVersionController extends Controller
+class VersionController extends Controller
 {
     #[OA\Get(
         path: '/api/v1/app/check-version',

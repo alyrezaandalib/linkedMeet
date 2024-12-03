@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\App\CompanyActivityTypeController;
-use App\Http\Controllers\Api\V1\AppVersionController;
+use App\Http\Controllers\Api\V1\App\VersionController;
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\V1\Auth\LinkedInController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
@@ -14,7 +14,7 @@ Route::prefix('v1')->group(function () {
     // App
     Route::prefix('app')->group(function () {
 
-        Route::get('check-version', [AppVersionController::class, 'checkVersion']);
+        Route::get('check-version', [VersionController::class, 'checkVersion']);
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('company-activity-types', [CompanyActivityTypeController::class, 'index']);
