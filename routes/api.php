@@ -1,24 +1,45 @@
 <?php
 
+use App\Http\Controllers\Api\V1\App\CompanyActivityTypeController;
 use App\Http\Controllers\Api\V1\AppVersionController;
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\V1\Auth\LinkedInController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
+use App\Http\Controllers\Api\V1\User\UserCompanyActivityTypeController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
+
+    // App
     Route::prefix('app')->group(function () {
-        Route::get('/check-version', [AppVersionController::class, 'checkVersion']);
+
+        Route::get('check-version', [AppVersionController::class, 'checkVersion']);
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('company-activity-types', [CompanyActivityTypeController::class, 'index']);
+        });
+
     });
 
+    // Auth
     Route::prefix('auth')->group(function () {
+
         Route::post('register', [RegisterController::class, 'register']);
         Route::post('verify-email', [EmailVerificationController::class, 'verifyEmail']);
         Route::post('resend-verification-code', [ResendVerificationCodeController::class, 'resendVerificationCode']);
 
         Route::get('linkedin', [LinkedInController::class, 'redirectToLinkedIn']);
         Route::get('linkedin/callback', [LinkedInController::class, 'handleLinkedInCallback']);
-    })->middleware('throttle:60,1');
+
+    });
+
+    // User
+    Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+
+        Route::get('company-activity-types', [UserCompanyActivityTypeController::class, 'index']);
+        Route::post('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
+
+    });
 
 });

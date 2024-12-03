@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_company_activity_types', function (Blueprint $table) {
+        Schema::create('company_activity_type_user', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('company_activity_type_id')->constrained('company_activity_types')->onDelete('cascade');
-            $table->timestamps();
 
             $table->primary(['user_id', 'company_activity_type_id']);
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_company_activity_types');
+        Schema::dropIfExists('company_activity_type_user');
     }
 };
