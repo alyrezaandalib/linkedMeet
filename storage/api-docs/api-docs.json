@@ -220,6 +220,96 @@
                 }
             }
         },
+        "/api/v1/auth/linkedin": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Redirect to LinkedIn for authentication",
+                "operationId": "2049592f4eb0785fbf8f57e1b660ff2f",
+                "responses": {
+                    "302": {
+                        "description": "Redirect to LinkedIn."
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/linkedin/callback": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Handle LinkedIn callback after authentication",
+                "operationId": "3852227e47e82cd6cd02634500fdfe37",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": null,
+                        "description": "Code",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your_generated_token_here"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john.doe@example.com"
+                                                },
+                                                "avatar": {
+                                                    "type": "string",
+                                                    "example": "https://graph.facebook.com/me/"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Unable to authenticate with LinkedIn.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unable to authenticate with LinkedIn."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/auth/register": {
             "post": {
                 "tags": [

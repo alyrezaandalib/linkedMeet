@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AppVersionController;
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
+use App\Http\Controllers\Api\V1\Auth\LinkedInController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,9 @@ Route::prefix('v1')->group(function () {
         Route::post('register', [RegisterController::class, 'register']);
         Route::post('verify-email', [EmailVerificationController::class, 'verifyEmail']);
         Route::post('resend-verification-code', [ResendVerificationCodeController::class, 'resendVerificationCode']);
-    });
+
+        Route::get('linkedin', [LinkedInController::class, 'redirectToLinkedIn']);
+        Route::get('linkedin/callback', [LinkedInController::class, 'handleLinkedInCallback']);
+    })->middleware('throttle:60,1');
 
 });

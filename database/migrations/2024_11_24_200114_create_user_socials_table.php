@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('social_network_id')->constrained('social_networks')->onDelete('cascade');
             $table->string('social_id');
-            $table->string('access_token');
+            $table->text('access_token');
             $table->timestamps();
 
             $table->primary(['user_id', 'social_network_id']);
