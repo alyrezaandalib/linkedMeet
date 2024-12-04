@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\App\CompanyActivityTypeController;
 use App\Http\Controllers\Api\V1\App\VersionController;
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\V1\Auth\LinkedInController;
+use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
 use App\Http\Controllers\Api\V1\User\UserCompanyActivityTypeController;
@@ -26,6 +27,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
 
         Route::post('register', [RegisterController::class, 'register']);
+        Route::post('login', [LoginController::class, 'login']);
         Route::post('verify-email', [EmailVerificationController::class, 'verifyEmail']);
         Route::post('resend-verification-code', [ResendVerificationCodeController::class, 'resendVerificationCode']);
 

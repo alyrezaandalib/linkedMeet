@@ -78,7 +78,8 @@ class LinkedInController extends Controller
                                     example: "https://graph.facebook.com/me/"
                                 ),
                             ],
-                            type: "object"),
+                            type: "object"
+                        ),
                     ],
                     type: "object"
                 )
