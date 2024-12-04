@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\V1\App\CompanyActivityTypeController;
+use App\Http\Controllers\Api\V1\App\IndustryController;
+use App\Http\Controllers\Api\V1\App\JobTitleController;
 use App\Http\Controllers\Api\V1\App\VersionController;
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\V1\Auth\LinkedInController;
@@ -19,6 +21,8 @@ Route::prefix('v1')->group(function () {
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('company-activity-types', [CompanyActivityTypeController::class, 'index']);
+            Route::get('industries', [IndustryController::class, 'index']);
+            Route::get('job-titles', [JobTitleController::class, 'index']);
         });
 
     });
