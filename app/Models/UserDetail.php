@@ -13,6 +13,16 @@ class UserDetail extends Model
         'job_title_id',
     ];
 
+    public function industry(): BelongsTo
+    {
+        return $this->belongsTo(Industry::class);
+    }
+
+    public function jobTitle(): BelongsTo
+    {
+        return $this->belongsTo(JobTitle::class);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

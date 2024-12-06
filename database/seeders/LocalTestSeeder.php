@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CompanyActivityType;
 use App\Models\Industry;
 use App\Models\JobTitle;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -16,5 +17,6 @@ class LocalTestSeeder extends Seeder
     {
         JobTitle::factory()->count(10)->create();
         Industry::factory()->count(5)->create();
+        CompanyActivityType::factory(10)->create();
     }
 }

@@ -19,6 +19,9 @@ class UserResource extends JsonResource
             "name" => $this->name,
             "email" => $this->email,
             "avatar" => $this->avatar,
+            'job_title' => $this->userDetails->jobTitle->name ?? null,
+            'industry' => $this->userDetails->industry->name ?? null,
+            'company_activity_types' => $this->companyActivityTypes->pluck('name'),
         ];
     }
 }

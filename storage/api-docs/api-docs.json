@@ -959,6 +959,73 @@
                 ]
             }
         },
+        "/api/v1/user/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user profile information",
+                "operationId": "53194ee7fa62fd3a7bb207cb07b713f7",
+                "responses": {
+                    "200": {
+                        "description": "User profile information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "johndoe@example.com"
+                                        },
+                                        "job_title": {
+                                            "type": "string",
+                                            "example": "Software Developer"
+                                        },
+                                        "industry": {
+                                            "type": "string",
+                                            "example": "Technology"
+                                        },
+                                        "company_activity_types": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Research & Development"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/company-activity-types": {
             "get": {
                 "tags": [

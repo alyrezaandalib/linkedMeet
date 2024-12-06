@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\Auth\LinkedInController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
+use App\Http\Controllers\Api\V1\User\ProfileController;
 use App\Http\Controllers\Api\V1\User\UserCompanyActivityTypeController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,9 +44,10 @@ Route::prefix('v1')->group(function () {
     // User
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
 
+        Route::get('profile', [ProfileController::class, 'show']);
+
         Route::get('company-activity-types', [UserCompanyActivityTypeController::class, 'index']);
         Route::post('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
-
         Route::patch('industry', [\App\Http\Controllers\Api\V1\User\IndustryController::class, 'update']);
         Route::patch('job-title', [\App\Http\Controllers\Api\V1\User\JobTitleController::class, 'update']);
 
