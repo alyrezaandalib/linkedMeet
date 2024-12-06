@@ -424,7 +424,7 @@
                 "parameters": [
                     {
                         "name": "code",
-                        "in": null,
+                        "in": "query",
                         "description": "Code",
                         "required": true
                     }

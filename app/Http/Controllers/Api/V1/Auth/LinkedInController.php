@@ -37,7 +37,8 @@ class LinkedInController extends Controller
             new OA\Parameter(
                 name: "code",
                 description: "Code",
-                required: true,
+                in: "query",
+                required: true
             ),
         ],
         responses: [
