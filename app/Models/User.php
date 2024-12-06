@@ -3,13 +3,17 @@
 namespace App\Models;
 
 use App\Casts\AvatarCast;
+use App\Observers\UserObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;
@@ -53,6 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'avatar' => AvatarCast::class,
         ];
+    }
+
+    public function userDetails(): HasOne
+    {
+        return $this->hasOne(UserDetail::class);
     }
 
     public function companyActivityTypes(): BelongsToMany
