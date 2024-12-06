@@ -4,6 +4,7 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class AvatarCast implements CastsAttributes
 {
@@ -18,7 +19,8 @@ class AvatarCast implements CastsAttributes
             return $value;
         }
 
-        return url('storage/images/avatars/' . ($value ?? 'default.png'));
+        return storage::disk('avatars')
+            ->url($value ?? 'default.png');
     }
 
     /**
