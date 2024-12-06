@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
 
         Route::get('profile', [ProfileController::class, 'show']);
+        Route::patch('name', [ProfileController::class, 'updateName']);
         Route::post('avatar', [AvatarController::class, 'upload']);
         Route::get('{id}/profile', [ProfileController::class, 'showUserProfile']);
 

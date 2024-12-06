@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\User\UpdateNameRequest;
 use App\Http\Resources\V1\ProfileResource;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
@@ -88,7 +89,6 @@ class ProfileController extends Controller
         return new UserResource($user);
     }
 
-
     #[OA\Get(
         path: '/api/v1/user/{id}/profile',
         summary: 'Get user profile by id',
@@ -168,5 +168,90 @@ class ProfileController extends Controller
         }
 
         return new ProfileResource($user);
+    }
+
+    #[OA\Patch(
+        path: '/api/v1/user/name',
+        description: 'Update the name of the logged-in user.',
+        summary: 'Update user name',
+        security: [['sanctum' => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        property: 'name',
+                        type: 'string',
+                        example: 'John Doe'
+                    ),
+                ]
+            )
+        ),
+        tags: ['User'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Name updated successfully.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'Name updated successfully.'
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation error.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'The given data was invalid.'
+                        ),
+                        new OA\Property(
+                            property: "errors",
+                            properties: [
+                                new OA\Property(
+                                    property: "name",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "string",
+                                        example: "Message error"
+                                    )
+                                ),
+                            ],
+                            type: "object"
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'Unauthenticated.'
+                        ),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function updateName(UpdateNameRequest $request)
+    {
+        $user = $request->user();
+
+        $user->update(['name' => $request->name]);
+
+        return response()->json([
+            'message' => 'Name updated successfully.',
+        ]);
     }
 }
