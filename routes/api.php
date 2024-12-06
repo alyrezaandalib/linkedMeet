@@ -45,9 +45,10 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
 
         Route::get('profile', [ProfileController::class, 'show']);
+        Route::get('{id}/profile', [ProfileController::class, 'showUserProfile']);
 
         Route::get('company-activity-types', [UserCompanyActivityTypeController::class, 'index']);
-        Route::post('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
+        Route::put('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
         Route::patch('industry', [\App\Http\Controllers\Api\V1\User\IndustryController::class, 'update']);
         Route::patch('job-title', [\App\Http\Controllers\Api\V1\User\JobTitleController::class, 'update']);
 

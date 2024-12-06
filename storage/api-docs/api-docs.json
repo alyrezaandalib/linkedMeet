@@ -973,6 +973,10 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
                                         "name": {
                                             "type": "string",
                                             "example": "John Doe"
@@ -980,6 +984,10 @@
                                         "email": {
                                             "type": "string",
                                             "example": "johndoe@example.com"
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "https://graph.facebook.com/me/"
                                         },
                                         "job_title": {
                                             "type": "string",
@@ -1011,6 +1019,84 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/{id}/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user profile by id",
+                "operationId": "8dc95d64972603e8514ac05bbea73d4d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User profile information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "johndoe@example.com"
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "https://graph.facebook.com/me/"
+                                        },
+                                        "job_title": {
+                                            "type": "string",
+                                            "example": "Software Developer"
+                                        },
+                                        "industry": {
+                                            "type": "string",
+                                            "example": "Technology"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found."
                                         }
                                     },
                                     "type": "object"
@@ -1069,12 +1155,12 @@
                     }
                 ]
             },
-            "post": {
+            "put": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Update company activity types for the authenticated user",
-                "operationId": "43c0187d1148db8aab0efa9fca6da307",
+                "operationId": "c9463ea9d7624b6e61a08ac249579641",
                 "requestBody": {
                     "required": true,
                     "content": {

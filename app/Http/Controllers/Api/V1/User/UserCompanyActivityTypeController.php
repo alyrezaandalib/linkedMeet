@@ -50,7 +50,7 @@ class UserCompanyActivityTypeController extends Controller
         ]);
     }
 
-    #[OA\Post(
+    #[OA\Put(
         path: '/api/v1/user/company-activity-types',
         summary: 'Update company activity types for the authenticated user',
         security: [['sanctum' => []]],
