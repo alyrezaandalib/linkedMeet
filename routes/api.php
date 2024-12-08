@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\App\VersionController;
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\V1\Auth\LinkedInController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
@@ -43,6 +44,7 @@ Route::prefix('v1')->group(function () {
 
 
         Route::middleware('auth:sanctum')->group(function () {
+            Route::post('logout', [LogoutController::class, 'logout']);
             Route::patch('change-password', [PasswordController::class, 'change']);
         });
 
