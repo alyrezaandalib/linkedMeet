@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\App\VersionController;
 use App\Http\Controllers\Api\V1\Auth\EmailVerificationController;
 use App\Http\Controllers\Api\V1\Auth\LinkedInController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
@@ -39,6 +40,11 @@ Route::prefix('v1')->group(function () {
 
         Route::get('linkedin', [LinkedInController::class, 'redirectToLinkedIn']);
         Route::get('linkedin/callback', [LinkedInController::class, 'handleLinkedInCallback']);
+
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::patch('change-password', [PasswordController::class, 'change']);
+        });
 
     });
 
