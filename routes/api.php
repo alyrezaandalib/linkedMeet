@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
+use App\Http\Controllers\Api\V1\User\LocationController;
 use App\Http\Controllers\Api\V1\User\ProfileController;
 use App\Http\Controllers\Api\V1\User\UserCompanyActivityTypeController;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,8 @@ Route::prefix('v1')->group(function () {
         Route::patch('name', [ProfileController::class, 'updateName']);
         Route::post('avatar', [AvatarController::class, 'upload']);
         Route::get('{id}/profile', [ProfileController::class, 'showUserProfile']);
+
+        Route::post('location', [LocationController::class, 'update']);
 
         Route::get('company-activity-types', [UserCompanyActivityTypeController::class, 'index']);
         Route::put('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);

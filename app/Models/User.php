@@ -68,4 +68,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(CompanyActivityType::class);
     }
+
+    public function location(): HasOne
+    {
+        return $this->hasOne(UserLocation::class);
+    }
 }
