@@ -1035,6 +1035,76 @@
                 ]
             }
         },
+        "/api/v1/user/chats": {
+            "get": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Retrieve the list of users the authenticated user has chatted with.",
+                "description": "Returns a list of users with whom the authenticated user has had a chat, including the last message time.",
+                "operationId": "655627b03c9765049941529110d8e274",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "John Doe"
+                                            },
+                                            "avatar": {
+                                                "type": "string",
+                                                "example": "https://example.com/avatar.jpg"
+                                            },
+                                            "started_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-12-15T12:30:00Z"
+                                            },
+                                            "last_message_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-12-15T12:30:00Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/industry": {
             "patch": {
                 "tags": [
@@ -1827,6 +1897,10 @@
         {
             "name": "User",
             "description": "User"
+        },
+        {
+            "name": "Chat",
+            "description": "Chat"
         }
     ]
 }

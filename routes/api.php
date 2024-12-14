@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
+use App\Http\Controllers\Api\V1\User\ChatController;
 use App\Http\Controllers\Api\V1\User\LocationController;
 use App\Http\Controllers\Api\V1\User\NearbyUsersController;
 use App\Http\Controllers\Api\V1\User\ProfileController;
@@ -62,6 +63,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('location', [LocationController::class, 'update']);
         Route::get('nearby-users', [NearbyUsersController::class, 'index']);
+        Route::get('chats', [ChatController::class, 'index']);
 
         Route::get('company-activity-types', [UserCompanyActivityTypeController::class, 'index']);
         Route::put('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
