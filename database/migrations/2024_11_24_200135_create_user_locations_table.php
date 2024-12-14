@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->primary('user_id');
+            $table->index(['latitude', 'longitude']);
         });
     }
 

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserDetail extends Model
 {
+    protected $primaryKey = 'user_id';
+
     protected $fillable = [
         'user_id',
         'industry_id',

@@ -1298,6 +1298,126 @@
                 ]
             }
         },
+        "/api/v1/user/nearby-users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get users within 500 meters of the authenticated user",
+                "operationId": "05a326905ecca078764a21c07d1f550d",
+                "parameters": [
+                    {
+                        "name": "job_title_ids[]",
+                        "in": "query",
+                        "description": "Filter by job title IDs",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "name": "industry_ids[]",
+                        "in": "query",
+                        "description": "Filter by industry IDs",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "allowReserved": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of nearby users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    },
+                                                    "avatar": {
+                                                        "type": "string",
+                                                        "example": "https://linkedmeet.com/storage/images/avatars/default.png"
+                                                    },
+                                                    "industry": {
+                                                        "type": "string",
+                                                        "example": "Ltd"
+                                                    },
+                                                    "job_title": {
+                                                        "type": "string",
+                                                        "example": "Agricultural Inspector"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User location not set.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User location not set."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/profile": {
             "get": {
                 "tags": [

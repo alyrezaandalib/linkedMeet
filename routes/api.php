@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
 use App\Http\Controllers\Api\V1\User\LocationController;
+use App\Http\Controllers\Api\V1\User\NearbyUsersController;
 use App\Http\Controllers\Api\V1\User\ProfileController;
 use App\Http\Controllers\Api\V1\User\UserCompanyActivityTypeController;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,7 @@ Route::prefix('v1')->group(function () {
         Route::get('{id}/profile', [ProfileController::class, 'showUserProfile']);
 
         Route::post('location', [LocationController::class, 'update']);
+        Route::get('nearby-users', [NearbyUsersController::class, 'index']);
 
         Route::get('company-activity-types', [UserCompanyActivityTypeController::class, 'index']);
         Route::put('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
