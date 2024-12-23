@@ -933,6 +933,110 @@
                 }
             }
         },
+        "/api/v1/chat/send-message": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Send Chat Message",
+                "description": "Send a chat message to a specific user.",
+                "operationId": "8002c0ce323d322efe58e0a7a108a93b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "receiver_id",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "receiver_id": {
+                                        "description": "The ID of the user receiving the message.",
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "message": {
+                                        "description": "The content of the message. Maximum length is 1000 characters.",
+                                        "type": "string",
+                                        "maxLength": 1000,
+                                        "example": "Hello, how are you?"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Message sent successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message sent successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The message field is required."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The message field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. User must be authenticated.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/avatar": {
             "post": {
                 "tags": [
@@ -1895,12 +1999,12 @@
             "description": "Auth"
         },
         {
-            "name": "User",
-            "description": "User"
-        },
-        {
             "name": "Chat",
             "description": "Chat"
+        },
+        {
+            "name": "User",
+            "description": "User"
         }
     ]
 }

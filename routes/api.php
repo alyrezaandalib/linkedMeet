@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
+use App\Http\Controllers\Api\V1\Chat\SendMessageController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
 use App\Http\Controllers\Api\V1\User\ChatController;
 use App\Http\Controllers\Api\V1\User\LocationController;
@@ -72,4 +73,10 @@ Route::prefix('v1')->group(function () {
 
     });
 
+    // Chat
+    Route::middleware('auth:sanctum')->prefix('chat')->group(function () {
+
+        Route::post('send-message', [SendMessageController::class, 'sendMessage']);
+
+    });
 });
