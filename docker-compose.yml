@@ -1,38 +1,28 @@
 name: linkedmeet
+
 services:
     app:
-        container_name: 'app'
+        container_name: "app"
         build:
-            context: './docker/8.2'
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-                MYSQL_CLIENT: mariadb-client
-        image: 'linkedmeet/app'
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
+            context: .
+            dockerfile: docker/app/Dockerfile
+        image: linkedmeet-app
         ports:
-            - '${APP_PORT:-80}:80'
-            - '${REVERB_PORT:-8080}:8080'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            - "9000:9000"
+            - "8080:8080"
         volumes:
-            - '.:/var/www/html'
+            - app-data:/var/www/html
+        depends_on:
+            mysql:
+                condition: service_healthy
+            redis:
+                condition: service_started
         networks:
             - linkedmeet
-        depends_on:
-            - mariadb
-            - redis
-    mariadb:
-        container_name: 'mariadb'
-        image: 'mariadb:11'
-        ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
+
+    mysql:
+        container_name: "mysql"
+        image: mysql:lts
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
@@ -40,40 +30,53 @@ services:
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-        volumes:
-            - 'mariadb:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mariadb/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-        networks:
-            - linkedmeet
-        healthcheck:
-            test:
-                - CMD
-                - healthcheck.sh
-                - '--connect'
-                - '--innodb_initialized'
-            retries: 3
-            timeout: 5s
-    redis:
-        container_name: 'redis'
-        image: 'redis:alpine'
         ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
+            - "3306:3306"
         volumes:
-            - 'redis:/data'
+            - mysql-data:/var/lib/mysql
+        depends_on:
+            - redis
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 30s
         networks:
             - linkedmeet
-        healthcheck:
-            test:
-                - CMD
-                - redis-cli
-                - ping
-            retries: 3
-            timeout: 5s
+
+    redis:
+        container_name: "redis"
+        image: redis:alpine
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis-data:/data
+        networks:
+            - linkedmeet
+
+    nginx:
+        container_name: "nginx"
+        image: nginx:latest
+        volumes:
+            - app-data:/var/www/html
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "80:80"
+            - "3000:3000"
+        depends_on:
+            - app
+        networks:
+            - linkedmeet
+
+volumes:
+    app-data:
+        driver: local
+    mysql-data:
+        driver: local
+    redis-data:
+        driver: local
+
 networks:
     linkedmeet:
         driver: bridge
-volumes:
-    mariadb:
-        driver: local
-    redis:
-        driver: local
