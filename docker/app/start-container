@@ -2,9 +2,10 @@
 
 until nc -z mysql 3306; do
             echo 'Waiting for MySQL...';
-            sleep 2;
+            sleep 5;
         done;
 
+echo 'Running migrations...'
 php artisan migrate --force
 
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
