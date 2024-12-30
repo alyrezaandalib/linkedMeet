@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     libzip-dev \
     supervisor \
+    netcat-openbsd \
     && docker-php-ext-install \
     zip \
     pcntl \

@@ -19,7 +19,17 @@ services:
                 condition: service_started
         networks:
             - linkedmeet
-
+    frontend:
+        container_name: "frontend"
+        image: linkedmeet-frontend:latest
+        ports:
+            - "3000:3000"
+        volumes:
+            - frontend-data:/app
+        depends_on:
+            - app
+        networks:
+            - linkedmeet
     mysql:
         container_name: "mysql"
         image: mysql:lts
@@ -39,8 +49,8 @@ services:
         healthcheck:
             test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
             interval: 10s
-            timeout: 5s
-            retries: 5
+            timeout: 10s
+            retries: 10
             start_period: 30s
         networks:
             - linkedmeet
@@ -60,10 +70,11 @@ services:
         image: nginx:latest
         volumes:
             - app-data:/var/www/html
+            - frontend-data:/app
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         ports:
             - "80:80"
-            - "3000:3000"
+            - "3001:3001"
         depends_on:
             - app
         networks:
@@ -71,6 +82,8 @@ services:
 
 volumes:
     app-data:
+        driver: local
+    frontend-data:
         driver: local
     mysql-data:
         driver: local
