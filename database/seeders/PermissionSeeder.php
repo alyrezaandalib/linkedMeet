@@ -15,6 +15,7 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            'panel-admin'
         ];
 
         // Looping and Inserting Array's Permissions into Permission Table
