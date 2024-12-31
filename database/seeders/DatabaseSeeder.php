@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SocialNetworkSeeder::class,
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            DefaultUserSeeder::class,
         ]);
 
         if (app()->environment('local')) {
