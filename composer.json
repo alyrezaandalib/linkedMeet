@@ -9,6 +9,7 @@
         "php": "^8.2",
         "ext-gettext": "*",
         "awobaz/compoships": "^2.3",
+        "bezhansalleh/filament-shield": "^3.3",
         "darkaonline/l5-swagger": "^8.6",
         "filament/filament": "^3.2",
         "flowframe/laravel-trend": "^0.3.0",

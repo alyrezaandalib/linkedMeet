@@ -21,7 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasAvatar
 {
-    use HasFactory, HasRoles,Notifiable, HasApiTokens;
+    use HasFactory, HasRoles, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->can('access-panel');
+        return !$this->hasRole('User');
     }
 
     public function getFilamentAvatarUrl(): ?string

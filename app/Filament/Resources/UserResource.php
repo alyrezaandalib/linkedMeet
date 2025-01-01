@@ -42,9 +42,24 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('Roles')
+                    ->icon('heroicon-o-user-group')
+                    ->authorize('update')
+                    ->form([
+                        Forms\Components\Select::make('roles')
+                            ->relationship('roles', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->searchable()
+                            ->default(function (User $user) {
+                                return $user->roles->pluck('id')->toArray();
+                            }),
+                    ])->modalHeading("Change Roles"),
                 Tables\Actions\Action::make('toggleStatus')
                     ->label(fn(User $record) => $record->status == 'active' ? 'Deactivate' : 'Activate')
                     ->icon('heroicon-o-adjustments-horizontal')
+                    ->authorize('update')
                     ->action(function (User $record) {
                         $record->status = $record->status == 'active' ? 'inactive' : 'active';
                         $record->save();
@@ -54,7 +69,7 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
                 ]),
             ]);
     }

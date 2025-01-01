@@ -8,6 +8,8 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class UserOverview extends BaseWidget
 {
+    protected ?string $heading = "User Overview";
+
     protected function getStats(): array
     {
         $todayRegister = User::whereDate('created_at', '=', today())->count();

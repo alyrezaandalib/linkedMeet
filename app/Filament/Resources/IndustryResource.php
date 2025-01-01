@@ -21,7 +21,7 @@ class IndustryResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationGroup = 'Resources';
 
     public static function form(Form $form): Form
     {
