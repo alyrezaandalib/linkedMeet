@@ -3,11 +3,14 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class UserOverview extends BaseWidget
 {
+    use HasWidgetShield;
+
     protected ?string $heading = "User Overview";
 
     protected function getStats(): array

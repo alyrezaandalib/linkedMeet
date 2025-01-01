@@ -3,12 +3,15 @@
 namespace App\Filament\Widgets;
 
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
 class UsersChart extends ChartWidget
 {
+    use HasWidgetShield;
+
     protected static ?string $heading = 'Daily Registrations in Current Month';
     protected static ?string $description = 'A summary of the daily registrations in the current month';
 

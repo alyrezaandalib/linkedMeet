@@ -72,4 +72,9 @@ class UserPolicy
     {
         return $user->can('change_role_user');
     }
+
+    public function changeStatus(User $user, User $model): bool
+    {
+        return $user->can('change_status_user');
+    }
 }

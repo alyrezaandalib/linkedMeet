@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserResource extends Resource
+class UserResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = User::class;
 
@@ -21,11 +22,24 @@ class UserResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'update',
+            'delete',
+            'delete_any',
+            'change_role',
+            'change_status',
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name'),
             ]);
     }
 
@@ -45,7 +59,7 @@ class UserResource extends Resource
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('Roles')
                     ->icon('heroicon-o-user-group')
-                    ->authorize('update')
+                    ->authorize('change-role')
                     ->form([
                         Forms\Components\Select::make('roles')
                             ->relationship('roles', 'name')
@@ -59,7 +73,7 @@ class UserResource extends Resource
                 Tables\Actions\Action::make('toggleStatus')
                     ->label(fn(User $record) => $record->status == 'active' ? 'Deactivate' : 'Activate')
                     ->icon('heroicon-o-adjustments-horizontal')
-                    ->authorize('update')
+                    ->authorize('change-status')
                     ->action(function (User $record) {
                         $record->status = $record->status == 'active' ? 'inactive' : 'active';
                         $record->save();
