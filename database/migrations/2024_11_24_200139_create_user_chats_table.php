@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('partner_user_id')->constrained('users')->onDelete('cascade');
             $table->text('message');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['user_id', 'partner_user_id']);
         });

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('industry_id')->nullable()->constrained('industries');
             $table->foreignId('job_title_id')->nullable()->constrained('job_titles');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary('user_id');
             $table->index('industry_id');

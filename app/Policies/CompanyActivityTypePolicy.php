@@ -13,7 +13,7 @@ class CompanyActivityTypePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('view_any_company::activity::type');
     }
 
     /**
@@ -21,7 +21,7 @@ class CompanyActivityTypePolicy
      */
     public function view(User $user, CompanyActivityType $companyActivityType): bool
     {
-        return false;
+        return $user->can('view_company::activity::type');
     }
 
     /**
@@ -29,7 +29,7 @@ class CompanyActivityTypePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('create_company::activity::type');
     }
 
     /**
@@ -37,7 +37,7 @@ class CompanyActivityTypePolicy
      */
     public function update(User $user, CompanyActivityType $companyActivityType): bool
     {
-        return false;
+        return $user->can('update_company::activity::type');
     }
 
     /**
@@ -45,7 +45,7 @@ class CompanyActivityTypePolicy
      */
     public function delete(User $user, CompanyActivityType $companyActivityType): bool
     {
-        return false;
+        return $user->can('delete_company::activity::type');
     }
 
     /**
@@ -53,7 +53,7 @@ class CompanyActivityTypePolicy
      */
     public function restore(User $user, CompanyActivityType $companyActivityType): bool
     {
-        return false;
+        return $user->can('restore_company::activity::type');
     }
 
     /**
@@ -61,6 +61,6 @@ class CompanyActivityTypePolicy
      */
     public function forceDelete(User $user, CompanyActivityType $companyActivityType): bool
     {
-        return false;
+        return $user->can('force_delete_company::activity::type');
     }
 }

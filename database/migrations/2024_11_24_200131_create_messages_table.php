@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('message');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index('sender_id');
             $table->index('receiver_id');

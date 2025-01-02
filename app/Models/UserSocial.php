@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserSocial extends Model
 {
-    use Compoships;
+    use Compoships, SoftDeletes;
 
     protected $primaryKey = ['user_id', 'social_network_id'];
     public $incrementing = false;

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('is_mandatory')->default(false);
             $table->text('release_notes')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

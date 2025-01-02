@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('social_id');
             $table->text('access_token');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['user_id', 'social_network_id']);
         });

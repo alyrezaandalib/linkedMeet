@@ -13,7 +13,7 @@ class IndustryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->can('view_any_industry');
     }
 
     /**
@@ -21,7 +21,7 @@ class IndustryPolicy
      */
     public function view(User $user, Industry $industry): bool
     {
-        return false;
+        return $user->can('view_industry');
     }
 
     /**
@@ -29,7 +29,7 @@ class IndustryPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('create_industry');
     }
 
     /**
@@ -37,7 +37,7 @@ class IndustryPolicy
      */
     public function update(User $user, Industry $industry): bool
     {
-        return false;
+        return $user->can('update_industry');
     }
 
     /**
@@ -45,7 +45,7 @@ class IndustryPolicy
      */
     public function delete(User $user, Industry $industry): bool
     {
-        return false;
+        return $user->can('delete_industry');
     }
 
     /**
@@ -53,7 +53,7 @@ class IndustryPolicy
      */
     public function restore(User $user, Industry $industry): bool
     {
-        return false;
+        return $user->can('restore_industry');
     }
 
     /**
@@ -61,6 +61,6 @@ class IndustryPolicy
      */
     public function forceDelete(User $user, Industry $industry): bool
     {
-        return false;
+        return $user->can('force_delete_industry');
     }
 }
