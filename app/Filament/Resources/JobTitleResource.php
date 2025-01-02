@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\JobTitleImporter;
 use App\Filament\Resources\JobTitleResource\Pages;
 use App\Filament\Resources\JobTitleResource\RelationManagers;
 use App\Models\JobTitle;
@@ -34,6 +35,10 @@ class JobTitleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                Tables\Actions\ImportAction::make()
+                    ->importer(JobTitleImporter::class)
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
             ])

@@ -27,6 +27,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->spa()
+            ->broadcasting(false)
+            ->databaseNotifications()
             ->login()
             ->profile()
             ->colors([

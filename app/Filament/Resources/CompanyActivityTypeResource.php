@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\CompanyActivityTypeImporter;
 use App\Filament\Resources\CompanyActivityTypeResource\Pages;
 use App\Filament\Resources\CompanyActivityTypeResource\RelationManagers;
 use App\Models\CompanyActivityType;
@@ -34,6 +35,10 @@ class CompanyActivityTypeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                Tables\Actions\ImportAction::make()
+                    ->importer(CompanyActivityTypeImporter::class)
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
             ])

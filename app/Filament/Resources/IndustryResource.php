@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\IndustryImporter;
 use App\Filament\Resources\IndustryResource\Pages;
 use App\Filament\Resources\IndustryResource\RelationManagers;
 use App\Models\Industry;
@@ -34,6 +35,10 @@ class IndustryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->headerActions([
+                Tables\Actions\ImportAction::make()
+                    ->importer(IndustryImporter::class)
+            ])
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
             ])
