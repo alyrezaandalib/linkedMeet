@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
 use App\Http\Controllers\Api\V1\Chat\SendMessageController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
 use App\Http\Controllers\Api\V1\User\ChatController;
+use App\Http\Controllers\Api\V1\User\InformationController;
 use App\Http\Controllers\Api\V1\User\LocationController;
 use App\Http\Controllers\Api\V1\User\NearbyUsersController;
 use App\Http\Controllers\Api\V1\User\ProfileController;
@@ -70,6 +71,7 @@ Route::prefix('v1')->group(function () {
         Route::put('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
         Route::patch('industry', [\App\Http\Controllers\Api\V1\User\IndustryController::class, 'update']);
         Route::patch('job-title', [\App\Http\Controllers\Api\V1\User\JobTitleController::class, 'update']);
+        Route::patch('information', [InformationController::class, 'update']);
 
     });
 

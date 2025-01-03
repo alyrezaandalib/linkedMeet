@@ -1306,6 +1306,104 @@
                 ]
             }
         },
+        "/api/v1/user/information": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User Information",
+                "description": "Update the logged-in user's job title and industry information.",
+                "operationId": "1a5ff3e147dc8498773cafce6c7d9a80",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "job_title_id",
+                                    "industry_id"
+                                ],
+                                "properties": {
+                                    "job_title_id": {
+                                        "description": "The ID of the job title.",
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "industry_id": {
+                                        "description": "The ID of the industry.",
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User information updated successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User information updated successfully."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error or incorrect current password.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The industry id field is required."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "industry_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The industry id field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user/job-title": {
             "patch": {
                 "tags": [
