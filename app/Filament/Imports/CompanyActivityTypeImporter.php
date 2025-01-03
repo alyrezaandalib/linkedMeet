@@ -14,7 +14,9 @@ class CompanyActivityTypeImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            //
+            ImportColumn::make('name')
+                ->requiredMapping()
+                ->rules(['required', 'max:255']),
         ];
     }
 
