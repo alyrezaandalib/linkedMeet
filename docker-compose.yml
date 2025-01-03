@@ -17,6 +17,8 @@ services:
                 condition: service_healthy
             redis:
                 condition: service_started
+        mem_limit: 1g
+        cpus: "0.5"
         networks:
             - linkedmeet
     frontend:
@@ -28,6 +30,8 @@ services:
             - frontend-data:/app
         depends_on:
             - app
+        mem_limit: 512m
+        cpus: "0.25"
         networks:
             - linkedmeet
     mysql:
@@ -40,6 +44,9 @@ services:
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            MYSQL_INITDB_SKIP_TZINFO: 1
+            MYSQL_MAX_CONNECTIONS: 100
+            MYSQL_QUERY_CACHE_SIZE: 64M
         ports:
             - "3306:3306"
         volumes:
@@ -52,6 +59,8 @@ services:
             timeout: 10s
             retries: 10
             start_period: 30s
+        mem_limit: 1g
+        cpus: "0.5"
         networks:
             - linkedmeet
 
@@ -62,6 +71,8 @@ services:
             - "6379:6379"
         volumes:
             - redis-data:/data
+        mem_limit: 512m
+        cpus: "0.25"
         networks:
             - linkedmeet
 
@@ -77,6 +88,8 @@ services:
             - "3001:3001"
         depends_on:
             - app
+        mem_limit: 512m
+        cpus: "0.25"
         networks:
             - linkedmeet
 

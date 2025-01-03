@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     supervisor \
     netcat-openbsd \
+    libicu-dev \
     && docker-php-ext-install \
+    intl \
     zip \
     pcntl \
     gettext
@@ -31,6 +33,8 @@ WORKDIR /var/www/html
 
 # Copy project files
 COPY . .
+
+COPY ./storage/app/default.png ./storage/app/public/images/avatars/default.png
 
 # Set permissions for Laravel directories
 RUN chown -R www-data:www-data /var/www/html \

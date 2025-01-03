@@ -8,4 +8,9 @@ until nc -z mysql 3306; do
 echo 'Running migrations...'
 php artisan migrate --force
 
+php artisan optimize:clear
+php artisan optimize
+
+php artisan storage:link
+
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
