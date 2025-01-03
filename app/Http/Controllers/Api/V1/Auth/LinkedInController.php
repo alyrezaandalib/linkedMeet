@@ -116,6 +116,8 @@ class LinkedInController extends Controller
                     'email_verified_at' => now(),
                     'avatar' => $linkedinUser->getAvatar(),
                 ]);
+
+                $user->assignRole('User');
             }
 
             $userSocial = UserSocial::firstOrNew([

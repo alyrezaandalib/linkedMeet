@@ -96,8 +96,9 @@ class VersionController extends Controller
     public function checkVersion(CheckVersionRequest $request)
     {
         $currentVersion = $request->current_version;
+        $platform = $request->platform;
 
-        $latestVersion = AppVersion::where('platform', $request->platform)
+        $latestVersion = AppVersion::where('platform', $platform)
             ->orderByDesc('created_at')
             ->first();
 
@@ -108,13 +109,18 @@ class VersionController extends Controller
         }
 
         $isUpdateRequired = version_compare($currentVersion, $latestVersion->version, '<');
+        $isMandatory = AppVersion::hasMandatoryUpdate(
+            $platform,
+            $currentVersion
+        ) ?? $latestVersion->is_mandatory;
 
         return response()->json([
             'current_version' => $currentVersion,
             'latest_version' => $latestVersion->version,
-            'is_mandatory' => $latestVersion->is_mandatory,
+            'is_mandatory' => $isMandatory,
+            'need_update' => $isUpdateRequired,
             'message' => $isUpdateRequired
-                ? ($latestVersion->is_mandatory
+                ? ($isMandatory
                     ? __('A new version is mandatory. Please update your app.')
                     : __('A new version is available. Do you want to update?'))
                 : __('You are using the latest version.'),

@@ -89,6 +89,8 @@ class RegisterController extends Controller
             'verification_code_expires_at' => now()->addMinutes(2),
         ]);
 
+        $user->assignRole('User');
+
         Mail::to($user->email)->send(new EmailVerification($user));
 
         return response()->json([
