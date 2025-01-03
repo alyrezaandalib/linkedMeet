@@ -18,9 +18,9 @@ class CompanyActivityTypeImporter extends Importer
         ];
     }
 
-    public function resolveRecord(): ?CompanyActivityTypeResource
+    public function resolveRecord(): ?CompanyActivityType
     {
-        return CompanyActivityTypeResource::firstOrNew([
+        return CompanyActivityType::firstOrNew([
             // Update existing records, matching them by `$this->data['column_name']`
             'name' => $this->data['name'],
         ]);
