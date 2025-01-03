@@ -405,11 +405,24 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Redirect to LinkedIn for authentication",
+                "summary": "Get LinkedIn authentication URL",
                 "operationId": "2049592f4eb0785fbf8f57e1b660ff2f",
                 "responses": {
-                    "302": {
-                        "description": "Redirect to LinkedIn."
+                    "200": {
+                        "description": "Returns the LinkedIn authentication URL as a JSON response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "url": {
+                                            "description": "The LinkedIn authentication URL.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -15,18 +15,36 @@ class LinkedInController extends Controller
 {
     #[OA\Get(
         path: "/api/v1/auth/linkedin",
-        summary: "Redirect to LinkedIn for authentication",
+        summary: "Get LinkedIn authentication URL",
         tags: ["Auth"],
         responses: [
             new OA\Response(
-                response: 302,
-                description: "Redirect to LinkedIn."
-            ),
+                response: 200,
+                description: "Returns the LinkedIn authentication URL as a JSON response.",
+                content: new OA\MediaType(
+                    mediaType: "application/json",
+                    schema: new OA\Schema(
+                        properties: [
+                            new OA\Property(
+                                property: "url",
+                                description: "The LinkedIn authentication URL.",
+                                type: "string"
+                            )
+                        ],
+                        type: "object"
+                    )
+                )
+            )
         ]
     )]
     public function redirectToLinkedIn()
     {
-        return Socialite::driver('linkedin-openid')->stateless()->redirect();
+        $redirectUrl = Socialite::driver('linkedin-openid')
+            ->stateless()
+            ->redirect()
+            ->getTargetUrl();
+
+        return response()->json(['url' => $redirectUrl]);
     }
 
     #[OA\Get(
