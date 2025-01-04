@@ -42,7 +42,7 @@
             class="rounded-full font-medium border-slate-500 border p-1 text-slate-500 text-xs px-3"
         >Panel</span>
     </a>
-    <a href="/api/documentation">
+    <a href="{{ config('app.url_subdomain') }}">
         <span
             class="rounded-full font-medium border-slate-500 border p-1 text-slate-500 text-xs px-3"
         >APP</span>
