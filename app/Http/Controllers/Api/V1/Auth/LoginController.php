@@ -97,6 +97,19 @@ class LoginController extends Controller
                 )
             ),
             new OA\Response(
+                response: 403,
+                description: 'Email not verified',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'Email not verified. Please verify your email.'
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
                 response: 422,
                 description: "Validation error",
                 content: new OA\JsonContent(
@@ -126,6 +139,12 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
+
+        if (is_null($user->email_verified_at)) {
+            return response()->json([
+                'message' => 'Email not verified. Please verify your email.',
+            ], 403);
+        }
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);

@@ -99,8 +99,9 @@ class AvatarController extends Controller
     {
         $user = $request->user();
 
-        if ($user->avatar && Storage::disk('avatars')->exists($user->getRawOriginal("avatar"))) {
-            Storage::disk('avatars')->delete($user->getRawOriginal("avatar"));
+        $currentAvatar = $user->getRawOriginal("avatar");
+        if ($currentAvatar && Storage::disk('avatars')->exists($currentAvatar)) {
+            Storage::disk('avatars')->delete($currentAvatar);
         }
 
         $avatarPath = $request->file('avatar')
