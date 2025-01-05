@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\User\UpdateNameRequest;
+use App\Http\Requests\Api\V1\User\UpdateRequest;
 use App\Http\Resources\V1\ProfileResource;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
@@ -252,6 +253,107 @@ class ProfileController extends Controller
 
         return response()->json([
             'message' => 'Name updated successfully.',
+        ]);
+    }
+
+    #[OA\Patch(
+        path: "/api/v1/user/profile",
+        description: "This API allows users to update their profile information, including their name, job title, and industry.",
+        summary: "Update Profile",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["name", "job_title_id", "industry_id"],
+                properties: [
+                    new OA\Property(
+                        property: "name",
+                        type: "string",
+                        maxLength: 255,
+                        example: "John Doe"
+                    ),
+                    new OA\Property(
+                        property: "job_title_id",
+                        type: "integer",
+                        example: 1
+                    ),
+                    new OA\Property(
+                        property: "industry_id",
+                        type: "integer",
+                        example: 2
+                    ),
+                ]
+            )
+        ),
+        tags: ["User"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Profile updated successfully.",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: "message",
+                            type: "string",
+                            example: "Profile updated successfully."
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation error or incorrect current password.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'The industry id field is required.'
+                        ),
+                        new OA\Property(
+                            property: "errors",
+                            properties: [
+                                new OA\Property(
+                                    property: "industry_id",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "string",
+                                        example: "The industry id field is required."
+                                    )
+                                ),
+                            ],
+                            type: "object"
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'Unauthenticated.'
+                        ),
+                    ]
+                )
+            ),
+        ]
+    )]
+    public function update(UpdateRequest $request)
+    {
+        $user = $request->user();
+
+        $user->update(['name' => $request->name]);
+
+        $user->userDetails()->update([
+            'job_title_id' => $request->job_title_id,
+            'industry_id' => $request->industry_id,
+        ]);
+
+        return response()->json([
+            'message' => 'Profile updated successfully.',
         ]);
     }
 }
