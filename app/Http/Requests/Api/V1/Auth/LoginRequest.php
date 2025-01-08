@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\V1\Auth;
 
+use App\Rules\CheckUserNotSoftDeleted;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -22,8 +23,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|max:255|exists:users',
-            'password' => 'required|string|min:8|max:32',
+            'email' => ['required', 'string', 'email', 'max:255', new CheckUserNotSoftDeleted, 'exists:users'],
+            'password' => ['required', 'string', 'min:8', 'max:32'],
         ];
     }
 }
