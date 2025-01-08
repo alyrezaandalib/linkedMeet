@@ -28,8 +28,8 @@ services:
             - frontend_data:/app
         depends_on:
             - app
-        mem_limit: 512m
-        cpus: "0.25"
+        mem_limit: 1g
+        cpus: "0.5"
         networks:
             - linkedmeet
     mysql:
@@ -48,8 +48,8 @@ services:
         command: --default-authentication-plugin=mysql_native_password
         depends_on:
             - redis
-        mem_limit: 1g
-        cpus: "0.5"
+        mem_limit: 2g
+        cpus: "1"
         networks:
             - linkedmeet
     redis:
@@ -59,8 +59,8 @@ services:
             - "6379:6379"
         volumes:
             - redis_data:/data
-        mem_limit: 512m
-        cpus: "0.25"
+        mem_limit: 1g
+        cpus: "0.5"
         networks:
             - linkedmeet
     nginx:
@@ -80,7 +80,7 @@ services:
         depends_on:
             - app
         mem_limit: 512m
-        cpus: "0.25"
+        cpus: "0.5"
         networks:
             - linkedmeet
     certbot:
