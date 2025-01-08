@@ -36,20 +36,16 @@ services:
         container_name: "mysql"
         image: mysql:lts
         environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_HOST: '%'
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-            MYSQL_INITDB_SKIP_TZINFO: 1
-            MYSQL_MAX_CONNECTIONS: 100
-            MYSQL_QUERY_CACHE_SIZE: 64M
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
         ports:
             - "3306:3306"
-        restart: unless-stopped
+        restart: always
         volumes:
             - mysql_data:/var/lib/mysql
+        command: --default-authentication-plugin=mysql_native_password
         depends_on:
             - redis
         mem_limit: 1g
