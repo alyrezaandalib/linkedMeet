@@ -29,7 +29,7 @@ class LinkedInController extends Controller
                                 property: "url",
                                 description: "The LinkedIn authentication URL.",
                                 type: "string"
-                            )
+                            ),
                         ],
                         type: "object"
                     )
@@ -104,6 +104,19 @@ class LinkedInController extends Controller
                 )
             ),
             new OA\Response(
+                response: 400,
+                description: 'Account Deletion: Re-registration Not Possible',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'message',
+                            type: 'string',
+                            example: 'Your account has been deleted, and creating a new account with this email is not possible.'
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
                 response: 500,
                 description: "Unable to authenticate with LinkedIn.",
                 content: new OA\JsonContent(
@@ -124,7 +137,13 @@ class LinkedInController extends Controller
         try {
             $linkedinUser = Socialite::driver('linkedin-openid')->stateless()->user();
 
-            $user = User::where('email', $linkedinUser->getEmail())->first();
+            $user = User::withTrashed()->where('email', $linkedinUser->getEmail())->first();
+
+            if ($user && $user->trashed()) {
+                return response()->json([
+                    'message' => 'Your account has been deleted, and creating a new account with this email is not possible.',
+                ], 400);
+            }
 
             if (!$user) {
                 $user = User::create([
@@ -157,7 +176,7 @@ class LinkedInController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Unable to authenticate with LinkedIn.'], 500);
+            return response()->json(['message' => 'Unable to authenticate with LinkedIn.'], 500);
         }
     }
 }

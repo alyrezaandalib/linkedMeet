@@ -484,6 +484,22 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Account Deletion: Re-registration Not Possible",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your account has been deleted, and creating a new account with this email is not possible."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Unable to authenticate with LinkedIn.",
                         "content": {
