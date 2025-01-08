@@ -1,11 +1,12 @@
 #!/bin/sh
 
-until nc -z mysql 3306; do
-            echo 'Waiting for MySQL...';
+until nc -z mariadb 3306; do
+            echo 'Waiting for MariaDB...';
             sleep 5;
         done;
 
-echo 'Running migrations...'
+printf "\nRunning migrations...\n"
+
 php artisan migrate --force
 
 php artisan optimize:clear

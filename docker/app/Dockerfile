@@ -2,6 +2,21 @@ FROM php:8.2-fpm
 
 LABEL maintainer="Moein Bakhtnama"
 
+ARG UID
+ARG GID
+
+ENV UID=${UID}
+ENV GID=${GID}
+
+RUN delgroup dialout
+
+RUN groupadd -g ${GID} linkedmeet
+RUN adduser --uid ${UID} --gid ${GID} --system --shell /bin/sh linkedmeet
+
+RUN sed -i "s/user = www-data/user = linkedmeet/g" /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i "s/group = www-data/group = linkedmeet/g" /usr/local/etc/php-fpm.d/www.conf
+RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     $PHPIZE_DEPS \
@@ -31,21 +46,6 @@ COPY --from=composer:lts /usr/bin/composer /usr/bin/composer
 # Set the working directory
 WORKDIR /var/www/html
 
-# Copy project files
-COPY . .
-
-COPY ./storage/app/default.png ./storage/app/public/images/avatars/default.png
-
-# Set permissions for Laravel directories
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Run composer install
-RUN composer install --no-dev --optimize-autoloader
-
-# Run npm install and build
-RUN npm install && npm run build
-
 # Copy supervisor configuration files
 COPY docker/app/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/app/start-container /usr/local/bin/start-container
@@ -60,5 +60,7 @@ EXPOSE 9000
 
 # Expose Laravel Reverb WebSocket port
 EXPOSE 8080
+
+USER linkedmeet
 
 ENTRYPOINT ["start-container"]
