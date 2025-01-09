@@ -17,7 +17,7 @@ class CheckUserNotSoftDeleted implements ValidationRule
     {
         $user = User::withTrashed()->where('email', $value)->first();
 
-        if ($user || $user->trashed()) {
+        if ($user && $user->trashed()) {
             $fail('Your account has been deleted, and creating a new account with this email is not possible.');
         }
     }
