@@ -120,8 +120,6 @@ services:
                 - GID=${GID:-1000}
         volumes:
             - .:/var/www/html
-        depends_on:
-            - app
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]
         networks:
             - linkedmeet
@@ -137,6 +135,7 @@ services:
             - .:/var/www/html:delegated
         depends_on:
             - mariadb
+            - app
         entrypoint: [ 'php', '/var/www/html/artisan' ]
         networks:
             - linkedmeet
