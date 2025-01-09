@@ -1,8 +1,18 @@
 FROM mariadb:lts
 
-#COPY docker/mysql/my.cnf /etc/my.cnf
-#
-#RUN chmod 644 /etc/my.cnf
-EXPOSE 3306
+ARG UID
+ARG GID
 
-#CMD ["mysqld"]
+ENV UID=${UID}
+ENV GID=${GID}
+
+RUN groupadd -g ${GID} linkedmeet
+RUN adduser --uid ${UID} --gid ${GID} --system --shell /bin/sh linkedmeet
+
+RUN chown -R linkedmeet:linkedmeet /var/lib/mysql /var/run/mysqld
+
+COPY docker/mariadb/scripts/init.sql /docker-entrypoint-initdb.d/init.sql
+
+USER linkedmeet
+
+EXPOSE 3306

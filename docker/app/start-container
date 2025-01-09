@@ -5,13 +5,6 @@ until nc -z mariadb 3306; do
             sleep 5;
         done;
 
-printf "\nRunning migrations...\n"
-
-php artisan migrate --force
-
-php artisan optimize:clear
-php artisan optimize
-
-php artisan storage:link
+printf "\nRunning supervisor...\n"
 
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
