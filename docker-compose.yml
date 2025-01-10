@@ -103,6 +103,7 @@ services:
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
+        image: linkedmeet-app:latest
         volumes:
             - .:/var/www/html
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]
@@ -117,11 +118,11 @@ services:
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
+        image: linkedmeet-app:latest
         volumes:
-            - .:/var/www/html:delegated
+            - .:/var/www/html
         depends_on:
             - mariadb
-            - app
         entrypoint: [ 'php', '/var/www/html/artisan' ]
         profiles:
             - tools
@@ -129,12 +130,11 @@ services:
             - linkedmeet
     npm:
         image: node:lts-alpine
-        user: "${UID:-1000}:${GID:-1000}"
         volumes:
-            - .:/var/www/LinkedMeet
+            - .:/var/www/html
         ports:
             - "5173:5173"
-        working_dir: /var/www/LinkedMeet
+        working_dir: /var/www/html
         entrypoint: [ 'npm' ]
         profiles:
             - tools
