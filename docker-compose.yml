@@ -12,7 +12,7 @@ services:
         image: linkedmeet-app:latest
         ports:
             - "9000:9000"
-            - "8080:8080"
+            - "8000:8000"
         volumes:
             - .:/var/www/html:delegated
         depends_on:
@@ -78,7 +78,6 @@ services:
             - ./docker/nginx/certbot/www:/var/www/certbot/:ro
             - ./docker/nginx/certbot/conf/:/etc/nginx/ssl/:ro
         ports:
-            - "80:80"
             - "443:443"
         restart: always
         depends_on:
