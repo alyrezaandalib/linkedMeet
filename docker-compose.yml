@@ -73,13 +73,10 @@ services:
                 - GID=${GID:-1000}
         image: linkedmeet-nginx:latest
         volumes:
-            - .:/var/www/html:delegated
-            - ./docker/nginx/default_ssl.conf:/etc/nginx/conf.d/default.conf
-            - ./docker/nginx/certbot/www:/var/www/certbot/:ro
-            - ./docker/nginx/certbot/conf/:/etc/nginx/ssl/:ro
+             - .:/var/www/html:delegated
+             - ./docker/nginx/default_local.conf:/etc/nginx/conf.d/default.conf
         ports:
             - "8080:80"
-            - "443:443"
         restart: always
         depends_on:
             - app
@@ -87,15 +84,15 @@ services:
         cpus: "0.5"
         networks:
             - linkedmeet
-    certbot:
-        image: certbot/certbot:latest
-        volumes:
-            - ./docker/nginx/certbot/www:/var/www/certbot/:rw
-            - ./docker/nginx/certbot/conf/:/etc/letsencrypt/:rw
-        profiles:
-            - tools
-        networks:
-            - linkedmeet
+    # certbot:
+    #     image: certbot/certbot:latest
+    #     volumes:
+    #         - ./docker/nginx/certbot/www:/var/www/certbot/:rw
+    #         - ./docker/nginx/certbot/conf/:/etc/letsencrypt/:rw
+    #     profiles:
+    #         - tools
+    #     networks:
+    #         - linkedmeet
     composer:
         build:
             context: .
@@ -140,6 +137,22 @@ services:
             - tools
         networks:
             - linkedmeet
+    phpmyadmin:
+        container_name: phpmyadmin
+        image: phpmyadmin/phpmyadmin:latest
+        restart: always
+        ports:
+            - "8081:80"
+        environment:
+            PMA_HOST: mariadb
+            PMA_PORT: 3306
+            PMA_USER: ${DB_USERNAME}
+            PMA_PASSWORD: ${DB_PASSWORD}
+        depends_on:
+            - mariadb
+        networks:
+            - linkedmeet
+        
 networks:
     linkedmeet:
         driver: bridge
