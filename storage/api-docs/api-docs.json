@@ -74,6 +74,18 @@
                 ],
                 "summary": "Get list of industries",
                 "operationId": "3504dbe2e8ceb9204c763a6476f7aaae",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search industries by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "tech"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of industries",
@@ -134,6 +146,18 @@
                 ],
                 "summary": "Get list of job titles",
                 "operationId": "9b8935f6ebf3e88ae3f742e5bb944618",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search job titles by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "engineer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of job titles",

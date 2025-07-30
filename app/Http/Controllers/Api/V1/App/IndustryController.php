@@ -14,6 +14,15 @@ class IndustryController extends Controller
         summary: "Get list of industries",
         security: [["sanctum" => []]],
         tags: ["App"],
+        parameters: [
+            new OA\Parameter(
+                name: "q",
+                in: "query",
+                required: false,
+                description: "Search industries by name",
+                schema: new OA\Schema(type: "string", example: "tech")
+            )
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -61,7 +70,12 @@ class IndustryController extends Controller
     )]
     public function index()
     {
-        $industries = Industry::all(['id', 'name']);
+        $query = request('q');
+        $industries = Industry::query()
+            ->when($query, function($q) use ($query) {
+                $q->where('name', 'like', "%$query%");
+            })
+            ->get(['id', 'name']);
         return response()->json([
             'data' => $industries
         ]);

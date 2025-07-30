@@ -14,6 +14,15 @@ class JobTitleController extends Controller
         summary: "Get list of job titles",
         security: [["sanctum" => []]],
         tags: ["App"],
+        parameters: [
+            new OA\Parameter(
+                name: "q",
+                in: "query",
+                required: false,
+                description: "Search job titles by name",
+                schema: new OA\Schema(type: "string", example: "engineer")
+            )
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -61,7 +70,12 @@ class JobTitleController extends Controller
     )]
     public function index()
     {
-        $jobTitles = JobTitle::all(['id', 'name']);
+        $query = request('q');
+        $jobTitles = JobTitle::query()
+            ->when($query, function($q) use ($query) {
+                $q->where('name', 'like', "%$query%");
+            })
+            ->get(['id', 'name']);
         return response()->json(['data' => $jobTitles]);
     }
 }
