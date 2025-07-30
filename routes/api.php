@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\PasswordController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResendVerificationCodeController;
+use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\Chat\SendMessageController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
 use App\Http\Controllers\Api\V1\User\ChatController;
@@ -43,6 +44,8 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [LoginController::class, 'login']);
         Route::post('verify-email', [EmailVerificationController::class, 'verifyEmail']);
         Route::post('resend-verification-code', [ResendVerificationCodeController::class, 'resendVerificationCode']);
+        Route::post('forgot-password', [ForgotPasswordController::class, 'sendCode']);
+        Route::post('reset-forgotten-password', [ForgotPasswordController::class, 'reset']);
 
         Route::get('linkedin', [LinkedInController::class, 'redirectToLinkedIn']);
         Route::get('linkedin/callback', [LinkedInController::class, 'handleLinkedInCallback']);
