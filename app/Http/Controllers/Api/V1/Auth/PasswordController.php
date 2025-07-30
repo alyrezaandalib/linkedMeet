@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\ChangePasswordRequest;
 use OpenApi\Attributes as OA;
+use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
@@ -16,7 +17,13 @@ class PasswordController extends Controller
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
+                required: ['current_password', 'password'],
                 properties: [
+                    new OA\Property(
+                        property: 'current_password',
+                        type: 'string',
+                        example: 'OldP@ssWord'
+                    ),
                     new OA\Property(
                         property: 'password',
                         type: 'string',
@@ -85,6 +92,12 @@ class PasswordController extends Controller
     public function change(ChangePasswordRequest $request)
     {
         $user = $request->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'Current password is incorrect.'
+            ], 422);
+        }
 
         $user->update([
             'password' => bcrypt($request->password),
