@@ -16,6 +16,7 @@ class UserLocation extends Model
         'user_id',
         'latitude',
         'longitude',
+        'is_gps_enabled',
     ];
 
     public function user(): BelongsTo

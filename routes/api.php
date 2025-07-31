@@ -71,6 +71,10 @@ Route::prefix('v1')->group(function () {
         Route::get('nearby-users', [NearbyUsersController::class, 'index']);
         Route::get('chats', [ChatController::class, 'index']);
 
+        // GPS status
+        Route::patch('gps-status', [LocationController::class, 'updateGpsStatus']);
+        Route::get('gps-status', [LocationController::class, 'getGpsStatus']);
+
         Route::get('company-activity-types', [UserCompanyActivityTypeController::class, 'index']);
         Route::put('company-activity-types', [UserCompanyActivityTypeController::class, 'store']);
         Route::patch('industry', [\App\Http\Controllers\Api\V1\User\IndustryController::class, 'update']);
