@@ -1530,12 +1530,20 @@
                                             "started_at": {
                                                 "type": "string",
                                                 "format": "date-time",
-                                                "example": "2024-12-15T12:30:00Z"
+                                                "example": "2024-12-15T10:00:00Z"
                                             },
                                             "last_message_at": {
                                                 "type": "string",
                                                 "format": "date-time",
                                                 "example": "2024-12-15T12:30:00Z"
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "example": "Hello! How are you?"
+                                            },
+                                            "has_new_messages": {
+                                                "type": "integer",
+                                                "example": 3
                                             }
                                         },
                                         "type": "object"

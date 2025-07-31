@@ -43,13 +43,23 @@ class ChatController extends Controller
                                 property: 'started_at',
                                 type: 'string',
                                 format: 'date-time',
-                                example: '2024-12-15T12:30:00Z'
+                                example: '2024-12-15T10:00:00Z'
                             ),
                             new OA\Property(
                                 property: 'last_message_at',
                                 type: 'string',
                                 format: 'date-time',
                                 example: '2024-12-15T12:30:00Z'
+                            ),
+                            new OA\Property(
+                                property: 'message',
+                                type: 'string',
+                                example: 'Hello! How are you?'
+                            ),
+                            new OA\Property(
+                                property: 'has_new_messages',
+                                type: 'integer',
+                                example: 3
                             ),
                         ],
                         type: 'object'
@@ -76,15 +86,50 @@ class ChatController extends Controller
     {
         $user = $request->user();
 
-        $chatUsers = $user->chats()
-            ->with(['partner' => function ($query) {
-                $query->select('id', 'name', 'avatar');
-            }])
+        // Get unique chat partners from messages table
+        $chatPartners = \App\Models\Message::where('sender_id', $user->id)
+            ->orWhere('receiver_id', $user->id)
+            ->selectRaw('
+                CASE 
+                    WHEN sender_id = ? THEN receiver_id 
+                    ELSE sender_id 
+                END as partner_id,
+                MIN(created_at) as started_at,
+                MAX(created_at) as last_message_at,
+                SUBSTRING_INDEX(GROUP_CONCAT(message ORDER BY created_at DESC), ",", 1) as message
+            ', [$user->id])
+            ->groupBy('partner_id')
+            ->orderBy('last_message_at', 'desc')
             ->get();
+
+        // Get user details for each partner
+        $chatUsers = [];
+        foreach ($chatPartners as $partner) {
+            $partnerUser = \App\Models\User::select('id', 'name', 'avatar')
+                ->find($partner->partner_id);
+            
+            if ($partnerUser) {
+                // Count unread messages from this partner
+                $unreadCount = \App\Models\Message::where('sender_id', $partner->partner_id)
+                    ->where('receiver_id', $user->id)
+                    ->whereNull('read_at')
+                    ->count();
+
+                $chatUsers[] = [
+                    'id' => $partnerUser->id,
+                    'name' => $partnerUser->name,
+                    'avatar' => $partnerUser->avatar,
+                    'started_at' => $partner->started_at,
+                    'last_message_at' => $partner->last_message_at,
+                    'message' => $partner->message,
+                    'has_new_messages' => $unreadCount,
+                ];
+            }
+        }
 
         return response()
             ->json([
-                'data' => UserChatResource::collection($chatUsers),
+                'data' => $chatUsers,
             ]);
     }
 }
