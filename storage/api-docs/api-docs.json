@@ -1201,6 +1201,55 @@
                 ]
             }
         },
+        "/api/v1/chat/unread-messages-count": {
+            "get": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Get unread messages count",
+                "description": "Get the count of unread messages for the authenticated user.",
+                "operationId": "4ea9f8392aed312358962e95062671c3",
+                "responses": {
+                    "200": {
+                        "description": "Unread messages count retrieved successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "unread_messages_count": {
+                                            "type": "integer",
+                                            "example": 5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/user/avatar": {
             "post": {
                 "tags": [
