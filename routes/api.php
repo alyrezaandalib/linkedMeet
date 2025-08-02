@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\V1\Chat\SendMessageController;
 use App\Http\Controllers\Api\V1\Chat\UnreadMessagesCountController;
 use App\Http\Controllers\Api\V1\Chat\ChatHistoryController;
 use App\Http\Controllers\Api\V1\Chat\MarkAsReadController;
+use App\Http\Controllers\Api\V1\Chat\ClearActiveController;
 use App\Http\Controllers\Api\V1\User\AvatarController;
 use App\Http\Controllers\Api\V1\User\ChatController;
 use App\Http\Controllers\Api\V1\User\InformationController;
@@ -93,6 +94,7 @@ Route::prefix('v1')->group(function () {
         Route::get('unread-messages-count', [UnreadMessagesCountController::class, 'index']);
         Route::get('history', [ChatHistoryController::class, 'index']);
         Route::post('mark-as-read', [MarkAsReadController::class, 'markAsRead']);
+        Route::post('clear-active', [ClearActiveController::class, 'clearActive']);
 
     });
 });
