@@ -40,6 +40,16 @@ class ChatController extends Controller
                                 example: 'https://example.com/avatar.jpg'
                             ),
                             new OA\Property(
+                                property: 'job_title',
+                                type: 'string',
+                                example: 'Software Engineer'
+                            ),
+                            new OA\Property(
+                                property: 'industry',
+                                type: 'string',
+                                example: 'Technology'
+                            ),
+                            new OA\Property(
                                 property: 'started_at',
                                 type: 'string',
                                 format: 'date-time',
@@ -105,7 +115,8 @@ class ChatController extends Controller
         // Get user details for each partner
         $chatUsers = [];
         foreach ($chatPartners as $partner) {
-            $partnerUser = \App\Models\User::select('id', 'name', 'avatar')
+            $partnerUser = \App\Models\User::with(['userDetails.jobTitle', 'userDetails.industry'])
+                ->select('id', 'name', 'avatar')
                 ->find($partner->partner_id);
             
             if ($partnerUser) {
@@ -119,6 +130,8 @@ class ChatController extends Controller
                     'id' => $partnerUser->id,
                     'name' => $partnerUser->name,
                     'avatar' => $partnerUser->avatar,
+                    'job_title' => $partnerUser->userDetails?->jobTitle?->name ?? null,
+                    'industry' => $partnerUser->userDetails?->industry?->name ?? null,
                     'started_at' => $partner->started_at,
                     'last_message_at' => $partner->last_message_at,
                     'message' => $partner->message,

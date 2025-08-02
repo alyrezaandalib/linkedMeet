@@ -1243,6 +1243,59 @@
                 ]
             }
         },
+        "/api/v1/chat/mark-as-read": {
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Mark messages as read",
+                "description": "Mark all unread messages as read for the authenticated user.",
+                "operationId": "fb062a2ea256c12a47098a8eee6e46ff",
+                "responses": {
+                    "200": {
+                        "description": "Messages marked as read successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Messages marked as read successfully."
+                                        },
+                                        "marked_count": {
+                                            "type": "integer",
+                                            "example": 5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/chat/send-message": {
             "post": {
                 "tags": [
@@ -1526,6 +1579,14 @@
                                             "avatar": {
                                                 "type": "string",
                                                 "example": "https://example.com/avatar.jpg"
+                                            },
+                                            "job_title": {
+                                                "type": "string",
+                                                "example": "Software Engineer"
+                                            },
+                                            "industry": {
+                                                "type": "string",
+                                                "example": "Technology"
                                             },
                                             "started_at": {
                                                 "type": "string",
