@@ -11,7 +11,7 @@ class ChatHistoryController extends Controller
 {
     #[OA\Get(
         path: '/api/v1/chat/history',
-        description: 'Get chat history between the authenticated user and a specific partner.',
+        description: 'Get chat history between the authenticated user and a specific partner. Messages are returned in chronological order (oldest first) for proper chat display.',
         summary: 'Get chat history',
         security: [['sanctum' => []]],
         parameters: [
@@ -24,7 +24,7 @@ class ChatHistoryController extends Controller
             ),
             new OA\Parameter(
                 name: 'page',
-                description: 'Page number for pagination',
+                description: 'Page number for pagination. Page 1 returns the latest 10 messages, page 2 returns the next 10 messages, etc.',
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'integer', example: 1)
@@ -57,7 +57,7 @@ class ChatHistoryController extends Controller
                             properties: [
                                 new OA\Property(property: 'current_page', type: 'integer', example: 1),
                                 new OA\Property(property: 'last_page', type: 'integer', example: 5),
-                                new OA\Property(property: 'per_page', type: 'integer', example: 20),
+                                new OA\Property(property: 'per_page', type: 'integer', example: 10),
                                 new OA\Property(property: 'total', type: 'integer', example: 100),
                             ]
                         ),
@@ -110,7 +110,7 @@ class ChatHistoryController extends Controller
 
         $user = $request->user();
         $partnerId = $request->partner_id;
-        $perPage = 20;
+        $perPage = 10;
 
         $messages = Message::where(function ($query) use ($user, $partnerId) {
             $query->where('sender_id', $user->id)
@@ -119,11 +119,11 @@ class ChatHistoryController extends Controller
             $query->where('sender_id', $partnerId)
                   ->where('receiver_id', $user->id);
         })
-        ->orderBy('created_at', 'asc')
+        ->orderBy('created_at', 'desc')
         ->paginate($perPage);
 
         return response()->json([
-            'data' => $messages->items(),
+            'data' => array_reverse($messages->items()),
             'meta' => [
                 'current_page' => $messages->currentPage(),
                 'last_page' => $messages->lastPage(),
